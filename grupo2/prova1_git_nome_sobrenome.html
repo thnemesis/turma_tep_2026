@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prova — Git & GitHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #f5f5f5;
+      color: #222;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 4px; }
+    h2 { font-size: 1rem; color: #555; font-weight: normal; margin-bottom: 24px; }
+    hr { border: none; border-top: 1px solid #ccc; margin: 24px 0; }
+    label { display: block; font-size: .9rem; font-weight: bold; margin-bottom: 4px; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: .9rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      box-sizing: border-box;
+      background: #fff;
+      margin-bottom: 16px;
+    }
+    input[type="text"]:focus, textarea:focus { outline: none; border-color: #555; }
+    textarea { height: 120px; resize: vertical; }
+    .row { display: flex; gap: 16px; }
+    .row > div { flex: 1; }
+    button {
+      background: #222;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      font-size: .9rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #444; }
+    #feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: .9rem;
+    }
+    .ok   { background: #e6f4ea; border: 1px solid #aad4b0; color: #2d6a3f; }
+    .erro { background: #fdecea; border: 1px solid #f5c2be; color: #922b21; }
+  </style>
+</head>
+<body>
+
+  <h1>Prova Prática — Git &amp; GitHub</h1>
+  <h2>Preencha sua identificação e responda a questão abaixo.</h2>
+
+  <hr/>
+
+  <div class="row">
+    <div>
+      <label for="matricula">Matrícula</label>
+      <input type="text" id="matricula" placeholder="Ex: 2024001" value="__MATRICULA__"/>
+    </div>
+    <div>
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" placeholder="Ex: Maria da Silva" value="__NOME__"/>
+    </div>
+  </div>
+
+  <hr/>
+
+  <label>Questão</label>
+  <p style="font-size:.9rem; margin-bottom:12px;">
+    Explique a diferença entre <strong>git push</strong> e <strong>git pull</strong>,
+    e descreva em qual situação você usaria cada um.
+  </p>
+
+  <textarea id="resposta" placeholder="Escreva sua resposta aqui...">__RESPOSTA__</textarea>
+
+  <button onclick="enviar()">Enviar e Salvar</button>
+
+  <div id="feedback"></div>
+
+  <!-- Template do arquivo — usado para gerar o download com as respostas -->
+  <script id="template" type="text/plain">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prova — Git & GitHub</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; background: #f5f5f5; color: #222; }
+    h1 { font-size: 1.4rem; margin-bottom: 4px; }
+    h2 { font-size: 1rem; color: #555; font-weight: normal; margin-bottom: 24px; }
+    hr { border: none; border-top: 1px solid #ccc; margin: 24px 0; }
+    label { display: block; font-size: .9rem; font-weight: bold; margin-bottom: 4px; }
+    input[type="text"], textarea { width: 100%; padding: 8px 10px; font-size: .9rem; border: 1px solid #bbb; border-radius: 4px; box-sizing: border-box; background: #fff; margin-bottom: 16px; }
+    textarea { height: 120px; resize: vertical; }
+    .row { display: flex; gap: 16px; }
+    .row > div { flex: 1; }
+    .salvo { margin-top: 24px; padding: 12px 16px; border-radius: 4px; font-size: .9rem; background: #e6f4ea; border: 1px solid #aad4b0; color: #2d6a3f; }
+  </style>
+</head>
+<body>
+  <h1>Prova Prática — Git &amp; GitHub</h1>
+  <h2>Resposta registrada.</h2>
+  <hr/>
+  <div class="row">
+    <div>
+      <label>Matrícula</label>
+      <input type="text" value="__MATRICULA__" readonly/>
+    </div>
+    <div>
+      <label>Nome Completo</label>
+      <input type="text" value="__NOME__" readonly/>
+    </div>
+  </div>
+  <hr/>
+  <label>Questão</label>
+  <p style="font-size:.9rem; margin-bottom:12px;">
+    Explique a diferença entre <strong>git push</strong> e <strong>git pull</strong>,
+    e descreva em qual situação você usaria cada um.
+  </p>
+  <textarea readonly>__RESPOSTA__</textarea>
+  <div class="salvo">✅ Resposta salva. Faça o commit e o push para o repositório.</div>
+</body>
+</html>
+  </script>
+
+  <script>
+    // Limpa os marcadores na primeira abertura
+    window.addEventListener('DOMContentLoaded', () => {
+      ['matricula', 'nome'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el.value === '__MATRICULA__' || el.value === '__NOME__') el.value = '';
+      });
+      const r = document.getElementById('resposta');
+      if (r.value === '__RESPOSTA__') r.value = '';
+    });
+
+    function enviar() {
+      const matricula = document.getElementById('matricula').value.trim();
+      const nome      = document.getElementById('nome').value.trim();
+      const resposta  = document.getElementById('resposta').value.trim();
+      const feedback  = document.getElementById('feedback');
+
+      if (!matricula || !nome) {
+        feedback.className = 'erro';
+        feedback.textContent = 'Preencha a matrícula e o nome antes de enviar.';
+        feedback.style.display = 'block';
+        return;
+      }
+
+      if (resposta.length < 30) {
+        feedback.className = 'erro';
+        feedback.textContent = 'Resposta muito curta. Elabore melhor.';
+        feedback.style.display = 'block';
+        return;
+      }
+
+      const template = document.getElementById('template').textContent;
+
+      const salvo = template
+        .replace(/__MATRICULA__/g, escaparAttr(matricula))
+        .replace(/__NOME__/g,      escaparAttr(nome))
+        .replace(/__RESPOSTA__/g,  escaparTexto(resposta));
+
+      const nomeArquivo = `prova_${matricula}_${nome.replace(/\s+/g, '_')}.html`;
+      const blob = new Blob([salvo], { type: 'text/html' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = nomeArquivo;
+      link.click();
+      URL.revokeObjectURL(link.href);
+
+      feedback.className = 'ok';
+      feedback.textContent = `Arquivo "${nomeArquivo}" salvo! Substitua o original e faça o commit.`;
+      feedback.style.display = 'block';
+    }
+
+    function escaparAttr(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    }
+
+    function escaparTexto(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+
+</body>
+</html>
